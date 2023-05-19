@@ -17,10 +17,13 @@ class _DeckComponentState extends State<DeckComponent> {
   // bool isMoving = false;
   List<CardEntity> cards = [];
 
-  void emptyCardCallback() {
-    setState(() {
-      cards.last.visible = true;
-    });
+  void visibleCallback(CardEntity card) {
+    final index = cards.indexWhere((element) => element == card);
+    if (index != -1){
+      setState(() {
+        cards[index].visible = true;
+      });
+    }
   }
 
   @override
@@ -44,8 +47,7 @@ class _DeckComponentState extends State<DeckComponent> {
           decoration: BoxDecoration(border: Border.all()),
           child: Stack(
             children: [
-              ...(cards).map((card) => CardComponent(card: card)),
-              if (cards.isNotEmpty && !cards.last.visible) EmptyCard(callback: emptyCardCallback)
+              ...(cards).map((card) => CardComponent(card: card, callback: visibleCallback,)),
             ],
           ),
         );

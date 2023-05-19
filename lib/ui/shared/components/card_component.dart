@@ -3,24 +3,32 @@ import 'package:flutter/material.dart';
 import '../../../domain/domain.dart';
 
 class CardComponent extends StatelessWidget {
-  const CardComponent({super.key, required this.card});
+  const CardComponent({super.key, required this.card, required this.callback});
 
   final CardEntity card;
+  final void Function(CardEntity) callback;
 
   @override
   Widget build(BuildContext context) {
-    return Draggable(
-      data: card,
-      feedback: CardStyle(
-        card: card,
-        isDragging: true,
-      ),
-      // childWhenDragging: const EmptyCard(),
-      child: CardStyle(
-        card: card,
-        isDragging: false,
-      ),
-    );
+    if (card.visible) {
+      return Draggable(
+        data: card,
+        feedback: CardStyle(
+          card: card,
+          isDragging: true,
+        ),
+        // childWhenDragging: const EmptyCard(),
+        child: CardStyle(
+          card: card,
+          isDragging: false,
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () => callback(card),
+        child: const EmptyCard(),
+      );
+    }
   }
 }
 
@@ -54,21 +62,14 @@ class CardStyle extends StatelessWidget {
 }
 
 class EmptyCard extends StatelessWidget {
-  const EmptyCard({super.key, required this.callback});
-
-  final void Function() callback;
+  const EmptyCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        callback();
-      },
-      child: Container(
-        height: CardStyle.height,
-        width: CardStyle.width,
-        color: Colors.grey,
-      ),
+    return Container(
+      height: CardStyle.height,
+      width: CardStyle.width,
+      color: Colors.grey,
     );
   }
 }
