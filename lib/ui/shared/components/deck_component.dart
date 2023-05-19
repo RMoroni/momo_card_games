@@ -17,6 +17,12 @@ class _DeckComponentState extends State<DeckComponent> {
   // bool isMoving = false;
   List<CardEntity> cards = [];
 
+  void emptyCardCallback() {
+    setState(() {
+      cards.last.visible = true;
+    });
+  }
+
   @override
   void initState() {
     cards = widget.cards;
@@ -39,7 +45,7 @@ class _DeckComponentState extends State<DeckComponent> {
           child: Stack(
             children: [
               ...(cards).map((card) => CardComponent(card: card)),
-              // if (isMoving) EmptyCard(),
+              if (cards.isNotEmpty && !cards.last.visible) EmptyCard(callback: emptyCardCallback)
             ],
           ),
         );

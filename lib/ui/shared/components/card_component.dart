@@ -54,14 +54,21 @@ class CardStyle extends StatelessWidget {
 }
 
 class EmptyCard extends StatelessWidget {
-  const EmptyCard({super.key});
+  const EmptyCard({super.key, required this.callback});
+
+  final void Function() callback;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: CardStyle.height,
-      width: CardStyle.width,
-      color: Colors.white,
+    return GestureDetector(
+      onTap: () {
+        callback();
+      },
+      child: Container(
+        height: CardStyle.height,
+        width: CardStyle.width,
+        color: Colors.grey,
+      ),
     );
   }
 }
