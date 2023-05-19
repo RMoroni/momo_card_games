@@ -14,11 +14,13 @@ class DeckComponent extends StatefulWidget {
 }
 
 class _DeckComponentState extends State<DeckComponent> {
+  // bool isMoving = false;
   List<CardEntity> cards = [];
 
   @override
   void initState() {
     cards = widget.cards;
+    cards.last.visible = true;
     super.initState();
   }
 
@@ -27,15 +29,26 @@ class _DeckComponentState extends State<DeckComponent> {
     return DragTarget(
       builder: (
         BuildContext context,
-        List<dynamic> accepted,
-        List<dynamic> rejected,
+        _,
+        __,
       ) {
-        return Stack(
-          children: [
-            ...(cards).map((e) => CardComponent(card: e)),
-          ],
+        return Container(
+          height: CardStyle.height,
+          width: CardStyle.width,
+          decoration: BoxDecoration(border: Border.all()),
+          child: Stack(
+            children: [
+              ...(cards).map((card) => CardComponent(card: card)),
+              // if (isMoving) EmptyCard(),
+            ],
+          ),
         );
       },
+      // onMove: (data) {
+      //   setState(() {
+      //     isMoving = true;
+      //   });
+      // },
       onAccept: (data) {
         if (data is CardEntity) {
           setState(() {
@@ -45,7 +58,7 @@ class _DeckComponentState extends State<DeckComponent> {
       },
       onLeave: (data) {
         setState(() {
-          cards.removeLast();
+          cards.remove(data);
         });
       },
     );

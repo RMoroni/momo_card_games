@@ -35,21 +35,9 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
-  final card1 = CardEntity(cardKey: 'A', cardType: CardType.clubs);
-  final card2 = CardEntity(cardKey: 'K', cardType: CardType.diamonds);
-  final card3 = CardEntity(cardKey: '1', cardType: CardType.hearts);
-  final card4 = CardEntity(cardKey: 'Q', cardType: CardType.clubs);
-  final card5 = CardEntity(cardKey: '2', cardType: CardType.spades);
+  final deck1 = CardExtension.createDeck();
+  final deck2 = CardExtension.createDeck();
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -60,26 +48,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    widget.deck1.shuffle();
+    widget.deck2.shuffle();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: Row(
         children: [
-          DeckComponent(limit: 5, cards: [widget.card1, widget.card2, widget.card3]),
+          DeckComponent(limit: 5, cards: widget.deck1.sublist(0,5)),
           SizedBox(width: 10),
-          DeckComponent(limit: 5, cards: [widget.card4, widget.card3, widget.card5]),
+          DeckComponent(limit: 5, cards: widget.deck2.sublist(0,5)),
         ],
       ),
       floatingActionButton: FloatingActionButton(

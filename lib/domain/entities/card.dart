@@ -1,6 +1,7 @@
 class CardEntity {
   final String cardKey;
   final CardType cardType;
+  bool visible = false;
 
   int get cardValue => cardValuesMap[cardKey]!;
 
@@ -28,4 +29,16 @@ enum CardType {
   diamonds,
   clubs,
   spades,
+}
+
+extension CardExtension on CardEntity {
+  static List<CardEntity> createDeck() {
+    final List<CardEntity> deck = [];
+    for (var key in CardEntity.cardValuesMap.keys) {
+      for (var type in CardType.values) {
+        deck.add(CardEntity(cardKey: key, cardType: type));
+      }
+    }
+    return deck;
+  }
 }
