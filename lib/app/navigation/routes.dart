@@ -1,11 +1,11 @@
+import 'package:momo_card_games/ui/ui.dart';
+
 class Routes {
   static const home = '/home';
-  static const signUp = '/sign-up';
-  static const signIn = '/sign-in';
+  static const klondike = '/klondike';
 
   static final routes = {
-    // Routes.home: (_) => HomeScreen(),
-    // Routes.signUp: (_) => const SignUpScreen(),
-    // Routes.signIn: (_) => const SignInScreen(),
+    Routes.home: (_) => HomeScreen(),
+    Routes.klondike: (_) => KlondikeScreen(),
   };
 }
