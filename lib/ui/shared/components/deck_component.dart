@@ -4,10 +4,9 @@ import 'package:momo_card_games/ui/shared/components/card_component.dart';
 import '../../../domain/entities/card.dart';
 
 class DeckComponent extends StatefulWidget {
-  final int limit;
   final List<CardEntity> cards;
 
-  const DeckComponent({super.key, required this.limit, required this.cards});
+  const DeckComponent({super.key, required this.cards});
 
   @override
   State<StatefulWidget> createState() => _DeckComponentState();
@@ -19,7 +18,7 @@ class _DeckComponentState extends State<DeckComponent> {
 
   void visibleCallback(CardEntity card) {
     final index = cards.indexWhere((element) => element == card);
-    if (index != -1){
+    if (index != -1) {
       setState(() {
         cards[index].visible = true;
       });
@@ -29,7 +28,9 @@ class _DeckComponentState extends State<DeckComponent> {
   @override
   void initState() {
     cards = widget.cards;
-    cards.last.visible = true;
+    if (cards.isNotEmpty) {
+      cards.last.visible = true;
+    }
     super.initState();
   }
 
@@ -44,10 +45,16 @@ class _DeckComponentState extends State<DeckComponent> {
         return Container(
           height: CardStyle.height,
           width: CardStyle.width,
-          decoration: BoxDecoration(border: Border.all()),
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Stack(
             children: [
-              ...(cards).map((card) => CardComponent(card: card, callback: visibleCallback,)),
+              ...(cards).map((card) => CardComponent(
+                    card: card,
+                    callback: visibleCallback,
+                  )),
             ],
           ),
         );

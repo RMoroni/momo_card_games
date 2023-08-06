@@ -8,11 +8,17 @@ class KlondikeScreen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _KlondikeScreenState();
-
 }
+
 class _KlondikeScreenState extends State<KlondikeScreen> {
   int countFinishedDecks = 0;
   final deck = CardExtension.createDeck();
+
+  @override
+  void initState() {
+    deck.shuffle();
+    super.initState();
+  }
 
   void finishCallback() {
     setState(() {
@@ -23,20 +29,52 @@ class _KlondikeScreenState extends State<KlondikeScreen> {
     }
   }
 
+  List<Widget> bottomDeck() {
+    List<Widget> widgets = [];
+    int aux = 0;
+    for (int i = 0; i < 7; i++) {
+      aux += i + 1;
+      widgets.addAll([
+        DeckComponent(cards: deck.sublist(aux - 1 - i, aux)),
+        const SizedBox(width: 10),
+      ]);
+    }
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('klondike'),
+        title: const Text('Klondike'),
       ),
-      body: Row(
-        children: [
-          DeckComponent(limit: 5, cards: deck.sublist(0,5)),
-          const SizedBox(width: 10),
-          DeckComponent(limit: 5, cards: deck.sublist(6,10)),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                DeckComponent(cards: deck.sublist(28, 52)),
+                const SizedBox(width: 10),
+                DeckComponent(cards: []),
+                const SizedBox(
+                  width: CardStyle.width + 20,
+                ),
+                for (int i = 0; i < 4; i++) ...[
+                  DeckComponent(cards: []),
+                  const SizedBox(width: 10),
+                ]
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: bottomDeck(),
+            )
+          ],
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-  
 }

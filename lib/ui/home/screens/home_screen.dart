@@ -12,18 +12,23 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Text('data'),
-        ElevatedButton(
-          onPressed: () {
-            navigator.pushNamed(
-              context: context,
-              route: Routes.klondike,
-            );
-          },
-          child: Text('Jogar'),
-        ),
-      ],),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Klondike'),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                navigator.pushNamed(
+                  context: context,
+                  route: Routes.klondike,
+                );
+              },
+              child: const Text('Jogar'),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

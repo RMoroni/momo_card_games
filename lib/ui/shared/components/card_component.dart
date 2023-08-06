@@ -48,9 +48,12 @@ class CardStyle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: isDragging ? Colors.purple : Colors.lightBlue,
+        borderRadius: BorderRadius.circular(16),
+      ),
       height: height,
       width: width,
-      color: isDragging ? Colors.purple : Colors.lightBlue,
       child: Center(
         child: Text(
           '${card.cardKey} - ${card.cardType.name}',
@@ -69,7 +72,10 @@ class EmptyCard extends StatelessWidget {
     return Container(
       height: CardStyle.height,
       width: CardStyle.width,
-      color: Colors.grey,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(16),
+      ),
     );
   }
 }
