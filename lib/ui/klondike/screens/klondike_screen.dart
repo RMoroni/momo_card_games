@@ -56,12 +56,12 @@ class _KlondikeScreenState extends State<KlondikeScreen> {
               children: [
                 DeckComponent(cards: deck.sublist(28, 52)),
                 const SizedBox(width: 10),
-                DeckComponent(cards: []),
+                const DeckComponent(cards: <CardEntity>[]),
                 const SizedBox(
                   width: CardStyle.width + 20,
                 ),
                 for (int i = 0; i < 4; i++) ...[
-                  DeckComponent(cards: []),
+                  const DeckComponent(cards: <CardEntity>[]),
                   const SizedBox(width: 10),
                 ]
               ],

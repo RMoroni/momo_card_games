@@ -25,6 +25,12 @@ class _DeckComponentState extends State<DeckComponent> {
     }
   }
 
+  void cancelCallback(CardEntity card) {
+    setState(() {
+      cards.add(card);
+    });
+  }
+
   @override
   void initState() {
     cards = widget.cards;
@@ -54,27 +60,25 @@ class _DeckComponentState extends State<DeckComponent> {
               ...(cards).map((card) => CardComponent(
                     card: card,
                     callback: visibleCallback,
+                    cancelCallback: cancelCallback,
                   )),
             ],
           ),
         );
       },
-      // onMove: (data) {
-      //   setState(() {
-      //     isMoving = true;
-      //   });
-      // },
-      onAccept: (data) {
-        if (data is CardEntity) {
+      onAcceptWithDetails: (draggableData) {
+        if (draggableData.data is CardEntity) {
           setState(() {
-            cards.add(data);
+            cards.add(draggableData.data as CardEntity);
           });
         }
       },
       onLeave: (data) {
-        setState(() {
-          cards.remove(data);
-        });
+        if (data is CardEntity) {
+          setState(() {
+            cards.remove(data);
+          });
+        }
       },
     );
   }

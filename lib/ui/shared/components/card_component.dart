@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import '../../../domain/domain.dart';
 
 class CardComponent extends StatelessWidget {
-  const CardComponent({super.key, required this.card, required this.callback});
+  const CardComponent({
+    super.key,
+    required this.card,
+    required this.callback,
+    required this.cancelCallback,
+  });
 
   final CardEntity card;
   final void Function(CardEntity) callback;
+  final void Function(CardEntity) cancelCallback;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +28,9 @@ class CardComponent extends StatelessWidget {
           card: card,
           isDragging: false,
         ),
+        onDraggableCanceled: (_, __) {
+          cancelCallback(card);
+        },
       );
     } else {
       return GestureDetector(
