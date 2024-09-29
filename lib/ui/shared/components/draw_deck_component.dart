@@ -3,22 +3,19 @@ import 'package:momo_card_games/ui/shared/components/card_component.dart';
 
 import '../../../domain/entities/card.dart';
 
-class DeckComponent extends StatefulWidget {
+class DrawDeckComponent extends StatefulWidget {
   final List<CardEntity> cards;
-  final bool onTopDeck;
 
-  const DeckComponent({
+  const DrawDeckComponent({
     super.key,
     required this.cards,
-    this.onTopDeck = false,
   });
 
   @override
-  State<StatefulWidget> createState() => _DeckComponentState();
+  State<StatefulWidget> createState() => _DrawDeckComponentState();
 }
 
-class _DeckComponentState extends State<DeckComponent> {
-  // bool isMoving = false;
+class _DrawDeckComponentState extends State<DrawDeckComponent> {
   List<CardEntity> cards = [];
 
   void visibleCallback(CardEntity card) {
@@ -36,18 +33,6 @@ class _DeckComponentState extends State<DeckComponent> {
     });
   }
 
-  bool willAcceptCard(CardEntity card) {
-    if (cards.isEmpty) {
-      return widget.onTopDeck ? card.cardValue == 1 : true;
-    } else if (card.cardValue - cards.last.cardValue == 1) {
-      return widget.onTopDeck ? (card.cardType == cards.last.cardType) : false;
-    } else if (card.cardValue - cards.last.cardValue == -1) {
-      return widget.onTopDeck ? false : (card.cardType != cards.last.cardType);
-    } else {
-      return false;
-    }
-  }
-
   @override
   void initState() {
     cards = widget.cards;
@@ -61,10 +46,10 @@ class _DeckComponentState extends State<DeckComponent> {
   Widget build(BuildContext context) {
     return DragTarget(
       builder: (
-        BuildContext context,
-        _,
-        __,
-      ) {
+          BuildContext context,
+          _,
+          __,
+          ) {
         return Container(
           height: CardStyle.height,
           width: CardStyle.width,
@@ -75,24 +60,16 @@ class _DeckComponentState extends State<DeckComponent> {
           child: Stack(
             children: [
               ...(cards).map((card) => CardComponent(
-                    card: card,
-                    callback: visibleCallback,
-                    cancelCallback: cancelCallback,
-                  )),
+                card: card,
+                callback: visibleCallback,
+                cancelCallback: cancelCallback,
+              )),
             ],
           ),
         );
       },
-      onWillAcceptWithDetails: (draggableData) {
-        if (draggableData.data is CardEntity) {
-          return willAcceptCard(draggableData.data as CardEntity);
-        }
+      onWillAcceptWithDetails: (_) {
         return false;
-      },
-      onAcceptWithDetails: (draggableData) {
-        setState(() {
-          cards.add(draggableData.data as CardEntity);
-        });
       },
       onLeave: (data) {
         if (data is CardEntity) {
